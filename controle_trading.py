@@ -77,11 +77,40 @@ dados = carregar_dados()
 
 st.markdown("### Resumo de lotes")
 
-cols_header = st.columns([0.5, 3, 1.5, 1.5, 1.5, 0.8])
-for col, label in zip(
-    cols_header, ["Tipo", "Ativo / Ação", "Iniciais", "Usados", "Disponíveis", ""]
-):
-    col.markdown(f"**{label}**")
+html_resumo = """
+<style>
+.tbl-trading {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+.tbl-trading th, .tbl-trading td {
+    border: 1px solid #CCC;
+    padding: 6px 10px;
+    text-align: center;
+}
+.tbl-trading th {
+    background-color: #f0f2f6;
+    font-weight: 600;
+}
+.tbl-trading td.nome {
+    text-align: left;
+}
+.tbl-trading tr:nth-child(even) {
+    background-color: #fafafa;
+}
+</style>
+<table class="tbl-trading">
+<tr>
+    <th>Tipo</th>
+    <th>Ativo / Ação</th>
+    <th>Iniciais</th>
+    <th>Usados</th>
+    <th>Disponíveis</th>
+    <th></th>
+</tr>
+"""
 
 for ativo in ATIVOS:
     nome = ativo["nome"]
@@ -89,14 +118,19 @@ for ativo in ATIVOS:
     usados = calcular_lotes_usados(dados, nome)
     disponivel = total - usados
     status = indicador(disponivel, total)
+    html_resumo += (
+        f"<tr>"
+        f"<td>{ativo['tipo']}</td>"
+        f"<td class='nome'>{nome}</td>"
+        f"<td>{total}</td>"
+        f"<td>{usados}</td>"
+        f"<td>{disponivel}</td>"
+        f"<td>{status}</td>"
+        f"</tr>"
+    )
 
-    c = st.columns([0.5, 3, 1.5, 1.5, 1.5, 0.8])
-    c[0].write(ativo["tipo"])
-    c[1].write(nome)
-    c[2].write(str(total))
-    c[3].write(str(usados))
-    c[4].write(str(disponivel))
-    c[5].write(status)
+html_resumo += "</table>"
+st.markdown(html_resumo, unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -156,14 +190,37 @@ else:
 
     registros_ordenados = sorted(registros, key=lambda r: r["data"], reverse=True)
 
-    for i, reg in enumerate(registros_ordenados):
-        idx_original = dados["registros"].index(reg)
-        c = st.columns([2, 3, 1, 3, 1])
-        c[0].write(reg["data"])
-        c[1].write(reg["ativo"])
-        c[2].write(str(reg["lotes"]))
-        c[3].write(reg.get("obs", ""))
-        if c[4].button("🗑️", key=f"del_{idx_original}"):
-            dados["registros"].pop(idx_original)
-            salvar_dados(dados)
-            st.rerun()
+    html_hist = """
+    <table class="tbl-trading">
+    <tr>
+        <th>Data</th>
+        <th>Ativo / Ação</th>
+        <th>Lotes</th>
+        <th>Observação</th>
+    </tr>
+    """
+    for reg in registros_ordenados:
+        html_hist += (
+            f"<tr>"
+            f"<td>{reg['data']}</td>"
+            f"<td class='nome'>{reg['ativo']}</td>"
+            f"<td>{reg['lotes']}</td>"
+            f"<td class='nome'>{reg.get('obs', '')}</td>"
+            f"</tr>"
+        )
+    html_hist += "</table>"
+    st.markdown(html_hist, unsafe_allow_html=True)
+
+    st.markdown("#### Excluir registro")
+    opcoes = [
+        f"{r['data']} | {r['ativo']} | {r['lotes']} lote(s)"
+        for r in registros_ordenados
+    ]
+    sel = st.selectbox("Selecione o registro", opcoes, key="del_sel")
+    if st.button("🗑️ Excluir selecionado"):
+        idx_sel = opcoes.index(sel)
+        reg_alvo = registros_ordenados[idx_sel]
+        idx_original = dados["registros"].index(reg_alvo)
+        dados["registros"].pop(idx_original)
+        salvar_dados(dados)
+        st.rerun()
