@@ -84,21 +84,27 @@ html_resumo = """
     border-collapse: collapse;
     font-size: 14px;
     margin-bottom: 1rem;
+    color: #222;
 }
 .tbl-trading th, .tbl-trading td {
-    border: 1px solid #CCC;
+    border: 1px solid #999;
     padding: 6px 10px;
     text-align: center;
 }
 .tbl-trading th {
-    background-color: #f0f2f6;
+    background-color: #e0e2e6;
     font-weight: 600;
+    color: #111;
+}
+.tbl-trading td {
+    background-color: #fff;
+    color: #222;
 }
 .tbl-trading td.nome {
     text-align: left;
 }
-.tbl-trading tr:nth-child(even) {
-    background-color: #fafafa;
+.tbl-trading tr:nth-child(even) td {
+    background-color: #f2f2f2;
 }
 </style>
 <table class="tbl-trading">
