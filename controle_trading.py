@@ -216,12 +216,13 @@ else:
     </tr>
     """
     for reg in registros_ordenados:
+        cor = COR_CATEGORIA.get(COR_CATEGORIA_POR_NOME.get(reg["ativo"], ""), "#222")
         html_hist += (
-            f"<tr>"
-            f"<td>{reg['data']}</td>"
-            f"<td class='nome'>{reg['ativo']}</td>"
-            f"<td>{reg['lotes']}</td>"
-            f"<td class='nome'>{reg.get('obs', '')}</td>"
+            f"<tr style='color:{cor}'>"
+            f"<td style='color:{cor}'>{reg['data']}</td>"
+            f"<td class='nome' style='color:{cor}'>{reg['ativo']}</td>"
+            f"<td style='color:{cor}'>{reg['lotes']}</td>"
+            f"<td class='nome' style='color:{cor}'>{reg.get('obs', '')}</td>"
             f"</tr>"
         )
     html_hist += "</table>"
