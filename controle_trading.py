@@ -8,17 +8,25 @@ from pathlib import Path
 ARQUIVO = Path("trading_lotes.json")
 
 ATIVOS = [
-    {"tipo": "Ativo", "nome": "SP-JUN26", "lotes_iniciais": 42},
-    {"tipo": "Ativo", "nome": "NSDQ-JUN26", "lotes_iniciais": 46},
-    {"tipo": "Ativo", "nome": "DOW-JUN26", "lotes_iniciais": 78},
-    {"tipo": "Ativo", "nome": "DAX-JUN26", "lotes_iniciais": 79},
-    {"tipo": "Ativo", "nome": "BRENT CRUDE OIL", "lotes_iniciais": 89},
-    {"tipo": "Ativo", "nome": "CL SWEET CRUDE OIL", "lotes_iniciais": 94},
-    {"tipo": "Ação", "nome": "DHR - DANAHER CORPORATION", "lotes_iniciais": 18},
-    {"tipo": "Ação", "nome": "NETFLIX - NETFLIX INC", "lotes_iniciais": 17},
-    {"tipo": "Ação", "nome": "ISRG - INTUITIVE SURGICAL INC", "lotes_iniciais": 20},
-    {"tipo": "Ação", "nome": "AMD - ADVANCED MICRO DEVICES INC", "lotes_iniciais": 1},
+    {"tipo": "Ativo", "nome": "SP-JUN26", "lotes_iniciais": 42, "cat": "indice"},
+    {"tipo": "Ativo", "nome": "NSDQ-JUN26", "lotes_iniciais": 46, "cat": "indice"},
+    {"tipo": "Ativo", "nome": "DOW-JUN26", "lotes_iniciais": 78, "cat": "indice"},
+    {"tipo": "Ativo", "nome": "DAX-JUN26", "lotes_iniciais": 79, "cat": "indice"},
+    {"tipo": "Ativo", "nome": "BRENT CRUDE OIL", "lotes_iniciais": 89, "cat": "petroleo"},
+    {"tipo": "Ativo", "nome": "CL SWEET CRUDE OIL", "lotes_iniciais": 94, "cat": "petroleo"},
+    {"tipo": "Ação", "nome": "DHR - DANAHER CORPORATION", "lotes_iniciais": 18, "cat": "acao"},
+    {"tipo": "Ação", "nome": "NETFLIX - NETFLIX INC", "lotes_iniciais": 17, "cat": "acao"},
+    {"tipo": "Ação", "nome": "ISRG - INTUITIVE SURGICAL INC", "lotes_iniciais": 20, "cat": "acao"},
+    {"tipo": "Ação", "nome": "AMD - ADVANCED MICRO DEVICES INC", "lotes_iniciais": 1, "cat": "acao"},
 ]
+
+COR_CATEGORIA = {
+    "indice": "#D32F2F",    # vermelho
+    "petroleo": "#7B1FA2",  # roxo
+    "acao": "#E65100",       # laranja
+}
+
+COR_CATEGORIA_POR_NOME = {a["nome"]: a["cat"] for a in ATIVOS}
 
 NOMES_ATIVOS = [a["nome"] for a in ATIVOS]
 LOTES_INICIAIS = {a["nome"]: a["lotes_iniciais"] for a in ATIVOS}
@@ -124,10 +132,11 @@ for ativo in ATIVOS:
     usados = calcular_lotes_usados(dados, nome)
     disponivel = total - usados
     status = indicador(disponivel, total)
+    cor = COR_CATEGORIA[ativo["cat"]]
     html_resumo += (
-        f"<tr>"
-        f"<td>{ativo['tipo']}</td>"
-        f"<td class='nome'>{nome}</td>"
+        f"<tr style='color:{cor}'>"
+        f"<td style='color:{cor}'>{ativo['tipo']}</td>"
+        f"<td class='nome' style='color:{cor}'>{nome}</td>"
         f"<td>{total}</td>"
         f"<td>{usados}</td>"
         f"<td>{disponivel}</td>"
