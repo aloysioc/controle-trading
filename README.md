@@ -24,7 +24,7 @@ Aplicação web em [Streamlit](https://streamlit.io/) para controle de lotes dis
 | Ativo | CL SWEET CRUDE OIL               | 94             |
 | Ação  | DHR - DANAHER CORPORATION        | 18             |
 | Ação  | NETFLIX - NETFLIX INC            | 17             |
-| Ação  | ISRG - INTUITIVE SURGICAL INC   | 20             |
+| Ação  | ISRG - INTUITIVE SURGICAL INC    | 20             |
 | Ação  | AMD - ADVANCED MICRO DEVICES INC | 1              |
 
 ## Como executar
