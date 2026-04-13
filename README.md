@@ -5,7 +5,7 @@ Aplicação web em [Streamlit](https://streamlit.io/) para controle de lotes dis
 ## Funcionalidades
 
 - Tabela resumo estilo planilha com bordas, cabeçalho e linhas alternadas
-- Indicadores visuais de lotes disponíveis por ativo (🟢 folgado / 🟡 baixo / 🔴 esgotado)
+- Indicadores visuais de progresso por ativo (🔴 pendente / 🟡 em andamento / 🟢 concluído)
 - Registro de uso de lotes por data, com observação opcional
 - Validação: não permite registrar mais lotes do que os disponíveis
 - Histórico completo com filtro por ativo e exclusão de registros
