@@ -59,13 +59,13 @@ def calcular_lotes_usados(dados, nome_ativo):
 def indicador(disponivel, total):
     if total == 0:
         return "⚪"
-    pct = disponivel / total
-    if pct <= 0:
-        return "🔴"
-    elif pct <= 0.3:
+    usados_pct = 1 - (disponivel / total)
+    if usados_pct >= 1:
+        return "🟢"
+    elif usados_pct >= 0.7:
         return "🟡"
     else:
-        return "🟢"
+        return "🔴"
 
 
 # ---------- APP ----------
@@ -218,11 +218,11 @@ else:
     for reg in registros_ordenados:
         cor = COR_CATEGORIA.get(COR_CATEGORIA_POR_NOME.get(reg["ativo"], ""), "#222")
         html_hist += (
-            f"<tr style='color:{cor}'>"
-            f"<td style='color:{cor}'>{reg['data']}</td>"
+            f"<tr>"
+            f"<td>{reg['data']}</td>"
             f"<td class='nome' style='color:{cor}'>{reg['ativo']}</td>"
-            f"<td style='color:{cor}'>{reg['lotes']}</td>"
-            f"<td class='nome' style='color:{cor}'>{reg.get('obs', '')}</td>"
+            f"<td>{reg['lotes']}</td>"
+            f"<td class='nome'>{reg.get('obs', '')}</td>"
             f"</tr>"
         )
     html_hist += "</table>"
