@@ -23,7 +23,7 @@ ATIVOS = [
 COR_CATEGORIA = {
     "indice": "#D32F2F",    # vermelho
     "petroleo": "#7B1FA2",  # roxo
-    "acao": "#E65100",       # laranja
+    "acao": "#2E7D32",       # verde
 }
 
 COR_CATEGORIA_POR_NOME = {a["nome"]: a["cat"] for a in ATIVOS}
@@ -107,6 +107,7 @@ html_resumo = """
 .tbl-trading td {
     background-color: #fff;
     color: #222;
+    font-weight: 600;
 }
 .tbl-trading td.nome {
     text-align: left;
