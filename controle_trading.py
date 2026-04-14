@@ -139,8 +139,8 @@ for ativo in ATIVOS:
         f"<td style='color:{cor}'>{ativo['tipo']}</td>"
         f"<td class='nome' style='color:{cor}'>{nome}</td>"
         f"<td>{total}</td>"
-        f"<td>{usados}</td>"
-        f"<td>{disponivel}</td>"
+        f"<td>{usados:.2f}</td>"
+        f"<td>{disponivel:.2f}</td>"
         f"<td>{status}</td>"
         f"</tr>"
     )
@@ -161,7 +161,7 @@ with st.form("form_registro", clear_on_submit=True):
     with col2:
         data_uso = st.date_input("Data", value=dt.date.today())
     with col3:
-        qtd = st.number_input("Lotes usados", min_value=1, value=1, step=1)
+        qtd = st.number_input("Lotes usados", min_value=0.01, value=1.0, step=0.1, format="%.2f")
 
     obs = st.text_input("Observação (opcional)")
     enviar = st.form_submit_button("Registrar")
