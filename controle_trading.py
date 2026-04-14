@@ -228,16 +228,60 @@ else:
     html_hist += "</table>"
     st.markdown(html_hist, unsafe_allow_html=True)
 
-    st.markdown("#### Excluir registro")
+    st.markdown("#### Gerenciar registros")
     opcoes = [
         f"{r['data']} | {r['ativo']} | {r['lotes']} lote(s)"
         for r in registros_ordenados
     ]
-    sel = st.selectbox("Selecione o registro", opcoes, key="del_sel")
-    if st.button("🗑️ Excluir selecionado"):
-        idx_sel = opcoes.index(sel)
-        reg_alvo = registros_ordenados[idx_sel]
-        idx_original = dados["registros"].index(reg_alvo)
-        dados["registros"].pop(idx_original)
-        salvar_dados(dados)
-        st.rerun()
+    sel = st.selectbox("Selecione o registro", opcoes, key="sel_registro")
+    idx_sel = opcoes.index(sel)
+    reg_alvo = registros_ordenados[idx_sel]
+    idx_original = dados["registros"].index(reg_alvo)
+
+    col_edit, col_del = st.columns(2)
+
+    with col_edit:
+        with st.expander("✏️ Editar registro"):
+            with st.form("form_editar", clear_on_submit=False):
+                novo_ativo = st.selectbox(
+                    "Ativo / Ação",
+                    NOMES_ATIVOS,
+                    index=NOMES_ATIVOS.index(reg_alvo["ativo"]),
+                    key="edit_ativo",
+                )
+                nova_data = st.date_input(
+                    "Data",
+                    value=dt.date.fromisoformat(reg_alvo["data"]),
+                    key="edit_data",
+                )
+                novo_lotes = st.number_input(
+                    "Lotes",
+                    min_value=0.01,
+                    value=float(reg_alvo["lotes"]),
+                    step=0.1,
+                    format="%.2f",
+                    key="edit_lotes",
+                )
+                nova_obs = st.text_input(
+                    "Observação",
+                    value=reg_alvo.get("obs", ""),
+                    key="edit_obs",
+                )
+                salvar_edicao = st.form_submit_button("Salvar alterações")
+
+                if salvar_edicao:
+                    dados["registros"][idx_original] = {
+                        "ativo": novo_ativo,
+                        "data": nova_data.isoformat(),
+                        "lotes": novo_lotes,
+                        "obs": nova_obs,
+                    }
+                    salvar_dados(dados)
+                    st.success("Registro atualizado.")
+                    st.rerun()
+
+    with col_del:
+        if st.button("🗑️ Excluir selecionado"):
+            dados["registros"].pop(idx_original)
+            salvar_dados(dados)
+            st.rerun()
