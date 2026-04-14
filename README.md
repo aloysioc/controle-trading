@@ -5,10 +5,12 @@ Aplicação web em [Streamlit](https://streamlit.io/) para controle de lotes dis
 ## Funcionalidades
 
 - Tabela resumo estilo planilha com bordas, cabeçalho e linhas alternadas
+- Cores por categoria: vermelho (índices), roxo (petróleo), verde (ações)
 - Indicadores visuais de progresso por ativo (🔴 pendente / 🟡 em andamento / 🟢 concluído)
 - Registro de uso de lotes por data, com observação opcional
+- Suporte a lotes fracionados (até 2 casas decimais)
 - Validação: não permite registrar mais lotes do que os disponíveis
-- Histórico completo com filtro por ativo e exclusão de registros
+- Histórico completo com filtro por ativo, edição e exclusão de registros
 - Persistência local em arquivo JSON (`trading_lotes.json`)
 - Compatível com tema claro e escuro do Streamlit
 
