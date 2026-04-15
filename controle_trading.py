@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime as dt
 import json
+import uuid
 from pathlib import Path
 
 # ---------- CONFIGURAÇÃO ----------
@@ -36,7 +37,15 @@ LOTES_INICIAIS = {a["nome"]: a["lotes_iniciais"] for a in ATIVOS}
 
 def carregar_dados():
     if ARQUIVO.exists():
-        return json.loads(ARQUIVO.read_text(encoding="utf-8"))
+        dados = json.loads(ARQUIVO.read_text(encoding="utf-8"))
+        modificado = False
+        for r in dados["registros"]:
+            if "id" not in r:
+                r["id"] = str(uuid.uuid4())
+                modificado = True
+        if modificado:
+            salvar_dados(dados)
+        return dados
     return {"registros": []}
 
 
@@ -175,6 +184,7 @@ with st.form("form_registro", clear_on_submit=True):
         else:
             dados["registros"].append(
                 {
+                    "id": str(uuid.uuid4()),
                     "ativo": ativo_sel,
                     "data": data_uso.isoformat(),
                     "lotes": qtd,
@@ -233,26 +243,40 @@ else:
         f"{r['data']} | {r['ativo']} | {r['lotes']} lote(s)"
         for r in registros_ordenados
     ]
+    # Mapa de opção → id para identificação segura
+    opcao_para_id = {
+        f"{r['data']} | {r['ativo']} | {r['lotes']} lote(s)": r["id"]
+        for r in registros_ordenados
+    }
+    id_para_reg = {r["id"]: r for r in registros_ordenados}
+
     sel = st.selectbox("Selecione o registro", opcoes, key="sel_registro")
-    idx_sel = opcoes.index(sel)
-    reg_alvo = registros_ordenados[idx_sel]
-    idx_original = dados["registros"].index(reg_alvo)
+    rid = opcao_para_id[sel]
+    reg_alvo = id_para_reg[rid]
+
+    # Sufixo dinâmico para recriar widgets ao trocar de registro
+    _sfx = f"_{rid}"
+
+    # Pré-carrega o valor de Observação no session_state (text_input ignora value)
+    obs_key = f"edit_obs{_sfx}"
+    if obs_key not in st.session_state:
+        st.session_state[obs_key] = reg_alvo.get("obs", "")
 
     col_edit, col_del = st.columns(2)
 
     with col_edit:
         with st.expander("✏️ Editar registro"):
-            with st.form("form_editar", clear_on_submit=False):
+            with st.form(f"form_editar{_sfx}", clear_on_submit=False):
                 novo_ativo = st.selectbox(
                     "Ativo / Ação",
                     NOMES_ATIVOS,
                     index=NOMES_ATIVOS.index(reg_alvo["ativo"]),
-                    key="edit_ativo",
+                    key=f"edit_ativo{_sfx}",
                 )
                 nova_data = st.date_input(
                     "Data",
                     value=dt.date.fromisoformat(reg_alvo["data"]),
-                    key="edit_data",
+                    key=f"edit_data{_sfx}",
                 )
                 novo_lotes = st.number_input(
                     "Lotes",
@@ -260,28 +284,31 @@ else:
                     value=float(reg_alvo["lotes"]),
                     step=0.1,
                     format="%.2f",
-                    key="edit_lotes",
+                    key=f"edit_lotes{_sfx}",
                 )
                 nova_obs = st.text_input(
                     "Observação",
-                    value=reg_alvo.get("obs", ""),
-                    key="edit_obs",
+                    key=obs_key,
                 )
                 salvar_edicao = st.form_submit_button("Salvar alterações")
 
                 if salvar_edicao:
-                    dados["registros"][idx_original] = {
-                        "ativo": novo_ativo,
-                        "data": nova_data.isoformat(),
-                        "lotes": novo_lotes,
-                        "obs": nova_obs,
-                    }
+                    for i, r in enumerate(dados["registros"]):
+                        if r["id"] == rid:
+                            dados["registros"][i] = {
+                                "id": rid,
+                                "ativo": novo_ativo,
+                                "data": nova_data.isoformat(),
+                                "lotes": novo_lotes,
+                                "obs": nova_obs,
+                            }
+                            break
                     salvar_dados(dados)
                     st.success("Registro atualizado.")
                     st.rerun()
 
     with col_del:
         if st.button("🗑️ Excluir selecionado"):
-            dados["registros"].pop(idx_original)
+            dados["registros"] = [r for r in dados["registros"] if r["id"] != rid]
             salvar_dados(dados)
             st.rerun()
