@@ -1,0 +1,102 @@
+{
+  "registros": [
+    {
+      "ativo": "BRENT CRUDE OIL",
+      "data": "2026-04-13",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 16h26",
+      "id": "85299da5-16f0-4b60-9e50-a77617606d7c"
+    },
+    {
+      "ativo": "CL SWEET CRUDE OIL",
+      "data": "2026-04-13",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 16h47",
+      "id": "14a87066-096f-488d-8722-aa4925052c6c"
+    },
+    {
+      "id": "13320890-f625-4ac0-8eb9-ee107f8a6b65",
+      "ativo": "BRENT CRUDE OIL",
+      "data": "2026-04-13",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 5h33"
+    },
+    {
+      "id": "0fdba6fc-25a5-4ee2-98b4-24f981c5a1e1",
+      "ativo": "CL SWEET CRUDE OIL",
+      "data": "2026-04-13",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 5h47"
+    },
+    {
+      "ativo": "SP-JUN26",
+      "data": "2026-04-14",
+      "lotes": 0.2,
+      "obs": "Compra incorreta.",
+      "id": "1b3b651c-db48-4f6e-a7de-526f97531ff7"
+    },
+    {
+      "ativo": "NSDQ-JUN26",
+      "data": "2026-04-14",
+      "lotes": 0.2,
+      "obs": "Compra incorreta.",
+      "id": "838713fd-af3c-4c11-8456-db8cb9a0290d"
+    },
+    {
+      "ativo": "DOW-JUN26",
+      "data": "2026-04-14",
+      "lotes": 0.2,
+      "obs": "Compra incorreta.",
+      "id": "f25cc383-a4b0-43be-8ee6-0b20aa242faa"
+    },
+    {
+      "ativo": "DAX-JUN26",
+      "data": "2026-04-14",
+      "lotes": 0.2,
+      "obs": "Compra incorreta.",
+      "id": "ea1c2027-372a-450e-8763-eb0fc9e8cb94"
+    },
+    {
+      "ativo": "DOW-JUN26",
+      "data": "2026-04-14",
+      "lotes": 0.2,
+      "obs": "Venda fechada às 11h52",
+      "id": "a7a8fd06-f630-48e9-b1c8-0db2bee26381"
+    },
+    {
+      "ativo": "DAX-JUN26",
+      "data": "2026-04-14",
+      "lotes": 0.2,
+      "obs": "Venda fechada às 11h49",
+      "id": "67d0bbc7-2f4f-419d-9b61-404c191c0ab0"
+    },
+    {
+      "id": "b78b9654-12b7-4899-9171-3e10d4666091",
+      "ativo": "BRENT CRUDE OIL",
+      "data": "2026-04-15",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 10h"
+    },
+    {
+      "ativo": "CL SWEET CRUDE OIL",
+      "data": "2026-04-15",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 10h",
+      "id": "e4f956af-91a3-45b8-9362-15580a8a11b5"
+    },
+    {
+      "id": "539612b1-ac94-4844-b13a-091a74c67cff",
+      "ativo": "CL SWEET CRUDE OIL",
+      "data": "2026-04-15",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 11h40"
+    },
+    {
+      "id": "76181ec5-c349-4e6c-a304-1d4b187fc821",
+      "ativo": "BRENT CRUDE OIL",
+      "data": "2026-04-15",
+      "lotes": 1.0,
+      "obs": "Compra fechada às 12h23"
+    }
+  ]
+}
